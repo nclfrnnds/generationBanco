@@ -39,12 +39,25 @@ public class ContaEmpresa extends Conta {
 	
 	// Métodos override
 	
-
+	@Override
+	public void exibir() {
+		System.out.printf("\nSaldo: R$ %.2f\n", getSaldo());
+		System.out.printf("Empréstimo disponível: R$ %.2f\n", getEmprestimoEmpresa());
+	}
 	
 	// Métodos
 	
 	public double pedirEmprestimo(double valor) {
-		return this.saldo;
+		if (emprestimoEmpresa >= valor) {
+			emprestimoEmpresa = emprestimoEmpresa - valor;
+			saldo = saldo + valor;
+			System.out.printf("Empréstimo no valor de %.2f realizado com sucesso!\n", valor);
+		}
+		else {
+			System.out.printf("Você não possui limite de empréstimo suficiente para realizar a m.\n");
+		}
+		exibir();
+		return emprestimoEmpresa;	
 	}
 
 }

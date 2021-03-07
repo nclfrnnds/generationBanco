@@ -1,10 +1,12 @@
 package classes;
 
+import java.util.GregorianCalendar;
+
 public class ContaPoupanca extends Conta {
 	
 	// Atributos
 	
-	private int aniversarioPoupanca = 6;
+	private int aniversarioPoupanca;
 	
 	// Construtor e sobrecargas do construtor
 	
@@ -44,7 +46,13 @@ public class ContaPoupanca extends Conta {
 	// Métodos
 	
 	public double correcao() {
-		return this.saldo;
+		GregorianCalendar calendar = new GregorianCalendar();
+		int hoje = calendar.get(GregorianCalendar.DAY_OF_MONTH);
+		if (aniversarioPoupanca == hoje) {
+			saldo = saldo + (saldo * 0.005);
+			System.out.printf("\nHoje é o dia do aniversário da poupança! Seu saldo foi reajustado.\n");
+		}
+		return saldo;
 	}
 
 }

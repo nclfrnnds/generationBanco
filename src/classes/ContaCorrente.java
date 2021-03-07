@@ -39,12 +39,23 @@ public class ContaCorrente extends Conta {
 	
 	// Métodos override
 	
-
+	@Override
+	public void exibir() {
+		System.out.printf("\nSaldo: R$ %.2f\n", getSaldo());
+		System.out.printf("Talões disponíveis: %d\n", getContadorTalao());
+	}
 	
 	// Métodos
 	
 	public void pedirTalao() {
-
+		if (contadorTalao > 0) {
+			contadorTalao--;
+			System.out.printf("\nVocê solicitou um talão!\nTalões disponíveis: %d\n", contadorTalao);
+		} 
+		else {
+			System.out.printf("\nVocê já atingiu seu limite de talões "
+					+ "e não pode solicitar novos.\n");
+		}	
 	}
 
 }

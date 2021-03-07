@@ -64,12 +64,23 @@ public class Conta {
 	
 	public void credito(double valor) {
 		this.saldo = this.saldo + valor;
+		System.out.printf("Crédito no valor de R$ %.2f realizado com sucesso.\n", valor);
+		exibir();
 	}
 	
 	public void debito(double valor) {	
 		if (this.saldo >= valor) {
 			this.saldo = this.saldo - valor;
+			System.out.printf("Débito no valor de R$ %.2f realizado com sucesso.\n", valor);
 		}
+		else {
+			System.out.printf("Você não possui saldo suficiente para realizar a movimentação.\n");
+		}
+		exibir();
+	}
+	
+	public void exibir() {
+		System.out.printf("\nSaldo: R$ %.2f\n", getSaldo());
 	}
 	
 }

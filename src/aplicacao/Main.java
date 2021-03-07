@@ -17,146 +17,192 @@ public class Main {
 		
 		Scanner ler = new Scanner(System.in);
 		
-		char opcaoConta;
-		char opcaoMovimento;
-		char opcaoContinuar;
-		
-		final int QTDMOVIMENTOS = 10;
-		double movimentos[] = new double[QTDMOVIMENTOS];
-		
-		int conta = 0;
+		double movimentos[] = new double[10];
+		char opcaoConta, opcaoMovimento, opcaoContinuar = '0';
+		int contador = 0, conta = 0, dia = 0;
 		Conta contaSelecionada = new Conta(conta);
+		String nomeTipo = "\nCONTA ";
 
-		// MOSTRA LOGO DO BANCO
+		// MOSTRA LOGO DO BANCO E MENU INICIAL
 		
-		System.out.printf("[BANCO G6 - G6]\n"
-				+ "[SLOGAN DO BANCO]\n\n");	
-		
-		// MOSTRA MENU INICIAL
-		
+		System.out.printf("[BANCO G6T18]\n"
+				+ "[TECNOLOGIA PRA VOCÊ]\n\n");	
+				
 		System.out.printf("MENU\n"
 				+ "1 - CONTA POUPANÇA\n"
 				+ "2 - CONTA CORRENTE\n"
 				+ "3 - CONTA ESPECIAL\n"
 				+ "4 - CONTA EMPRESA\n"
 				+ "5 - CONTA ESTUDANTIL\n"
-				+ "6 - SAIR\n\n"
-				+ "Informe o tipo de conta: ");
+				+ "6 - SAIR\n\n");
+		
+		// DIGITA O TIPO DE CONTA
+		
+		System.out.printf("Informe o tipo de conta: ");
 		opcaoConta = ler.next().toUpperCase().charAt(0);
 		
-		// LÊ DADOS DA CONTA
-		
-		System.out.printf("Informe o número da conta: ");
-		conta = ler.nextInt();
-		
-		// CRIA TEXTO INFORMANDO O TIPO DE CONTA
-		
-		String nomeTipo = "\nCONTA ";
-		
-		// SELECIONA CONTA
-		
-		if (opcaoConta == '1') {	
-			nomeTipo += "POUPANÇA";			
-			contaSelecionada = new ContaPoupanca(conta);
-		} 
-		else if (opcaoConta == '2') {
-			nomeTipo += "CORRENTE";
-			contaSelecionada = new ContaCorrente(conta);
-		} 
-		else if (opcaoConta == '3') {
-			nomeTipo += "ESPECIAL";
-			contaSelecionada = new ContaEspecial(conta);			
-		}
-		else if (opcaoConta == '4') {
-			nomeTipo += "EMPRESA";
-			contaSelecionada = new ContaEmpresa(conta);
-		}
-		else if (opcaoConta == '5') {
-			nomeTipo += "ESTUDANTIL";
-			contaSelecionada = new ContaEstudantil(conta);
-		}
-		else if (opcaoConta == '6') {
-			nomeTipo = "SAINDO...";
-		}
-		else {
-			nomeTipo = "ERRO DE DIGITAÇÃO";
-		}
-		
-		// MOSTRA DADOS DA CONTA
-		
-		System.out.printf("%s\n\n", nomeTipo);
-		System.out.printf("Conta: %d\nSaldo atual: R$ %.2f\n\n", 
-				contaSelecionada.getNumero(), contaSelecionada.getSaldo());
-		
-		// MOVIMENTA CONTA
-		
-		for (int cont = 0; cont < movimentos.length; cont++) {
+		if (opcaoConta == '1' || opcaoConta == '2' || opcaoConta == '3'
+				|| opcaoConta == '4' || opcaoConta == '5') {
 			
-			System.out.printf("[%d] Informe o tipo de movimento: D-débito ou C-crédito: ", (cont+1));
-			opcaoMovimento = ler.next().toUpperCase().charAt(0);
+			// DIGITA O NÚMERO DA CONTA
 			
-			System.out.printf("Informe o valor do movimento: ");
-			movimentos[cont] = ler.nextDouble();
+			System.out.printf("Informe o número da conta: ");
+			conta = ler.nextInt();
 			
-			System.out.println();
-			
-			String ultimoMovimento = "";
-			
-			if (opcaoMovimento == 'C') {
-				ultimoMovimento = "crédito";
-				contaSelecionada.credito(movimentos[cont]);
-			} 
-			else if (opcaoMovimento == 'D') {
-				ultimoMovimento = "débito";
-				contaSelecionada.debito(movimentos[cont]);
-			} 
-			else {
-				System.out.printf("Opção inválida!");
-			}
-			
-			// MOSTRA VALOR DO ÚLTIMO MOVIMENTO E D0 NOVO SALDO
-			
-			System.out.printf("Último movimento (%s): R$ %.2f\nNovo saldo: R$ %.2f\n", 
-					ultimoMovimento, movimentos[cont], contaSelecionada.getSaldo());
-
-			// MOSTRA AS ESPECIFICAÇÕES DAS CLASSES
+			// SELECIONA CONTA
 			
 			if (opcaoConta == '1') {
+				
+				System.out.printf("Informe o dia de aniversário da conta [1-31]: ");
+				dia = ler.nextInt();
+				
+				nomeTipo += "POUPANÇA";			
+				contaSelecionada = new ContaPoupanca(conta, dia);
 				
 			} 
 			else if (opcaoConta == '2') {
 				
-			}
+				nomeTipo += "CORRENTE";
+				contaSelecionada = new ContaCorrente(conta);
+				
+			} 
 			else if (opcaoConta == '3') {
-				double limiteRestante = ((classes.ContaEspecial) contaSelecionada).getLimite();
-				System.out.printf("Limite restante: R$ %.2f\n", limiteRestante);
+				
+				nomeTipo += "ESPECIAL";
+				contaSelecionada = new ContaEspecial(conta);
+				
 			}
 			else if (opcaoConta == '4') {
-				double emprestimoDisponivel = ((classes.ContaEmpresa) contaSelecionada).getEmprestimoEmpresa();
-				System.out.printf("Empréstimo disponível: R$ %.2f\n", emprestimoDisponivel);
+				
+				nomeTipo += "EMPRESA";
+				contaSelecionada = new ContaEmpresa(conta);
+				
 			}
 			else if (opcaoConta == '5') {
-				double emprestimoDisponivel = ((classes.ContaEstudantil) contaSelecionada).getLimiteEstudantil();
-				System.out.printf("Empréstimo disponível: R$ %.2f\n", emprestimoDisponivel);
-			}
-			
-			System.out.println();
-			
-			// PERGUNTA SE DESEJA CONTINUAR ATÉ ALCANÇAR OS 10 MOVIMENTOS
-			// OU SE DESEJA PARAR ANTES
-			
-			if (cont < movimentos.length - 1) {
-				System.out.printf("Continuar? S/N: ");
-				opcaoContinuar = ler.next().toUpperCase().charAt(0);
-				System.out.println();
 				
-				if (opcaoContinuar == 'N') {
-					System.out.println("Saindo...");
-					break;
-				}
+				nomeTipo += "ESTUDANTIL";
+				contaSelecionada = new ContaEstudantil(conta);
+				
 			}
-
+			
+			// MOSTRA DADOS DA CONTA
+			
+			System.out.printf("%s\n\nConta: %d\n", nomeTipo, contaSelecionada.getNumero());
+			contaSelecionada.exibir();
+			
+			// LAÇO COM OS MOVIMENTOS DA CONTA
+			
+			while (opcaoContinuar != 'N' && contador < movimentos.length) {
+				
+				if (opcaoConta == '2') {
+					
+					System.out.printf("\n[%d] Informe o tipo de operação: D-débito / C-crédito / T-talão de cheque: ", (contador + 1));
+					opcaoMovimento = ler.next().toUpperCase().charAt(0);
+					
+				} 
+				else if (opcaoConta == '4' || opcaoConta == '5') {
+					
+					System.out.printf("\n[%d] Informe o tipo de operação: D-débito / C-crédito / E-empréstimo: ", 
+							(contador + 1));
+					opcaoMovimento = ler.next().toUpperCase().charAt(0);
+					
+				} 
+				else {
+					
+					System.out.printf("\n[%d] Informe o tipo de operação: D-débito / C-crédito: ", (contador + 1));
+					opcaoMovimento = ler.next().toUpperCase().charAt(0);
+					
+				}
+				
+				if (((opcaoMovimento != 'C' && opcaoMovimento != 'D') 
+						&& (opcaoConta == '1' || opcaoConta == '3')) 
+				|| ((opcaoMovimento != 'C' && opcaoMovimento != 'D' && opcaoMovimento != 'E') 
+						&& (opcaoConta == '4' || opcaoConta == '5')) 
+				|| ((opcaoMovimento != 'C' && opcaoMovimento != 'D' && opcaoMovimento != 'T')
+						&& (opcaoConta == '2'))) {
+					
+					System.out.printf("\nOPÇÃO INVÁLIDA!\n");
+					
+				} 
+				else if (opcaoMovimento == 'T') {
+					
+					((ContaCorrente) contaSelecionada).pedirTalao();
+					
+					contador++;
+					
+				}
+				else {
+					
+					System.out.printf("Informe o valor da movimentação: ");
+					movimentos[contador] = ler.nextDouble();
+					System.out.println();
+								
+					if (opcaoMovimento == 'C') {
+						
+						contaSelecionada.credito(movimentos[contador]);
+						
+					} 
+					else if (opcaoMovimento == 'D') {
+						
+						contaSelecionada.debito(movimentos[contador]);
+						
+					}
+					else if (opcaoMovimento == 'E') {
+						
+						if (opcaoConta == '4') {
+						
+							((ContaEmpresa) contaSelecionada).pedirEmprestimo(movimentos[contador]);
+							
+						} 
+						else if (opcaoConta == '5') {
+							
+							((ContaEstudantil) contaSelecionada).usarEstudantil(movimentos[contador]);
+							
+						}
+						
+					}
+					
+					contador++;
+					
+				}
+											
+				// PERGUNTA SE DESEJA CONTINUAR ATÉ ALCANÇAR O LIMITE DE MOVIMENTOS
+				// OU SE DESEJA PARAR ANTES
+				
+				if (contador < movimentos.length) {
+					
+					System.out.printf("\nDeseja continuar? S/N: ");
+					opcaoContinuar = ler.next().toUpperCase().charAt(0);
+					
+				}
+					
+			}
+			
+			if (opcaoConta == '1') {
+				
+				((ContaPoupanca) contaSelecionada).correcao();
+				
+			}
+			
+			// MOSTRA DADOS DA CONTA
+			
+			contaSelecionada.exibir();
+			
+		} else if (opcaoConta == '6') {
+			
+			System.out.printf("\nSAINDO...\n");
+			
+		} else {
+			
+			System.out.printf("\nOPÇÃO INVÁLIDA!\n");
+			
 		}
+		
+		if (opcaoConta == '5') {
+			
+		}
+				
+		System.out.printf("\nFIM DE PROGRAMA!");
 		
 		ler.close();
 		
