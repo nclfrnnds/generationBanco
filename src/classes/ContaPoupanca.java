@@ -49,7 +49,7 @@ public class ContaPoupanca extends Conta {
 		GregorianCalendar calendar = new GregorianCalendar();
 		int hoje = calendar.get(GregorianCalendar.DAY_OF_MONTH);
 		if (aniversarioPoupanca == hoje) {
-			saldo = saldo + (saldo * 0.005);
+			saldo = saldo + (saldo * 0.0005);
 			System.out.printf("\nHoje é o dia do aniversário da poupança! Seu saldo foi reajustado.\n");
 		}
 		return saldo;
